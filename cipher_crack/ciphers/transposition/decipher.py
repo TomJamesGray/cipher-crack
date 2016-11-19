@@ -7,7 +7,7 @@ def decipher(cipher_txt,key):
     """
     #Perform basic normalisation of the inputs
     key = key.lower()
-    cipher_txt = cipher_txt.lower().replace(" ","").translate(string.punctuation)
+    cipher_txt = cipher_txt.upper().replace(" ","").translate(string.punctuation)
     logging.info(cipher_txt)
     #remove duplicate characters
     __key = ""
