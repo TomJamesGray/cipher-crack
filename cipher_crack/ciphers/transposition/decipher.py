@@ -5,7 +5,8 @@ from math import ceil
 logger = logging.getLogger(__name__)
 def decipher(cipher_txt,key):
     """
-    Deciphers a given cipher text with a key
+    Deciphers a given cipher text with a key using the transposition
+    cipher
     """
     pad_char = "&"
     #Perform basic normalisation of the inputs
