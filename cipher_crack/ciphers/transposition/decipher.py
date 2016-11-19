@@ -26,8 +26,19 @@ def decipher(cipher_txt,key):
     chunks = []
     col_width = int(len(cipher_txt)//len(key_order))
     logging.info("col width: {}".format(col_width))
-
-    for i in range(len(cipher_txt)//col_width):
+    for i in range(len(key_order)):
         chunks.append(cipher_txt[i*col_width:(i*col_width)+col_width])
-
     logging.info("Chunks: {}".format(chunks))
+    
+    #Order the chunks in the order of the key
+    ordered_chunks = []
+    for pos in key_order:
+        ordered_chunks.append(chunks[pos])
+
+    out = ""
+    for c in range(col_width):
+        for chunk in range(len(ordered_chunks)):
+            out += ordered_chunks[chunk][c]
+    logging.info("Output: {}".format(out))
+
+    return out
