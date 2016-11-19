@@ -4,4 +4,4 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
-script: pyest cipher_crack
+script: py.test cipher_crack
