@@ -1,0 +1,6 @@
+language: python
+python:
+  - "3.2"
+  - "3.4
+  - "3.5"
+script: pyest cipher_crack
