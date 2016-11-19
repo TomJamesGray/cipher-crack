@@ -5,7 +5,6 @@ from cipher_crack.ciphers import transposition
 
 logging_config = {
     "version":1,
-    "disable_existing_loggers":False,
     "formatters":{
         "main":{"format":"%(name)s-%(lineno)d: %(message)s"}
     },
