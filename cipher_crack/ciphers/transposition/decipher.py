@@ -1,6 +1,10 @@
 import logging
 import string
 
+
+logger = logging.getLogger(__name__)
+logger.setLevel(20)
+
 def decipher(cipher_txt,key):
     """
     Deciphers a given cipher text with a key
@@ -8,7 +12,7 @@ def decipher(cipher_txt,key):
     #Perform basic normalisation of the inputs
     key = key.lower()
     cipher_txt = cipher_txt.upper().replace(" ","").translate(string.punctuation)
-    logging.info(cipher_txt)
+    logger.debug("Cipher text: {}".format(cipher_txt))
     #remove duplicate characters
     __key = ""
     for c in key:
@@ -20,15 +24,15 @@ def decipher(cipher_txt,key):
     key_order = []
     for c in __key:
         key_order.append(__key_sorted.index(c))
-    logging.info("Key order for {}: {}".format(key,key_order))
+    logger.debug("Key order for {}: {}".format(key,key_order))
     
     #split the cipher text based on the length of the key into chunks
     chunks = []
     col_width = int(len(cipher_txt)//len(key_order))
-    logging.info("col width: {}".format(col_width))
+    logger.debug("col width: {}".format(col_width))
     for i in range(len(key_order)):
         chunks.append(cipher_txt[i*col_width:(i*col_width)+col_width])
-    logging.info("Chunks: {}".format(chunks))
+    logger.debug("Chunks: {}".format(chunks))
     
     #Order the chunks in the order of the key
     ordered_chunks = []
@@ -39,6 +43,6 @@ def decipher(cipher_txt,key):
     for c in range(col_width):
         for chunk in range(len(ordered_chunks)):
             out += ordered_chunks[chunk][c]
-    logging.info("Output: {}".format(out))
+    logger.debug("Output: {}".format(out))
 
     return out
