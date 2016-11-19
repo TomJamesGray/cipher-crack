@@ -1,9 +1,31 @@
 import argparse
 import logging
+import logging.config
 from cipher_crack.ciphers import transposition
 
+logging_config = dict(
+    version = 1,
+    formatters = {
+        "main":{"format":"%(name)s-%(lineno)d: %(message)s"}
+    },
+    handlers = {
+        "ciphers":{"class":"logging.StreamHandler",
+            "formatter":"main",
+            "level":logging.CRITICAL},
+        "user":{"class":"logging.StreamHandler",
+            "formatter":"main",
+            "level":logging.INFO}
+    },
+    root = {"handlers":["user"]},
+    loggers = {
+        "cipher_crack.ciphers":{
+            "handlers":["ciphers"]}
+    }
+)
+logging.config.dictConfig(logging_config)
+logger = logging.getLogger(__name__)
+
 def main(args):
-    logging.basicConfig(level=logging.DEBUG)
     parser = argparse.ArgumentParser(description="Crack ciphers\
             based on a dictionary attack")
     parser.add_argument("cipher",action="store",type=str)
@@ -21,7 +43,7 @@ def get_words_from_file(location):
 
 def crack(cipher_txt,dec_func,dictionary):
     if not callable(dec_func):
-        logging.error("Decipher function is not callable")
+        logger.error("Decipher function is not callable")
         raise ValueError("dec_func is not callable")
     for word in dictionary:
         print(dec_func(cipher_txt,word))

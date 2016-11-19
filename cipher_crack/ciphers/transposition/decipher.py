@@ -3,7 +3,6 @@ import string
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(20)
 
 def decipher(cipher_txt,key):
     """
