@@ -3,27 +3,32 @@ import logging
 import logging.config
 from cipher_crack.ciphers import transposition
 
-logging_config = dict(
-    version = 1,
-    formatters = {
+logging_config = {
+    "version":1,
+    "disable_existing_loggers":False,
+    "formatters":{
         "main":{"format":"%(name)s-%(lineno)d: %(message)s"}
     },
-    handlers = {
+    "handlers":{
         "ciphers":{"class":"logging.StreamHandler",
             "formatter":"main",
-            "level":logging.CRITICAL},
+            "level":"DEBUG"},
         "user":{"class":"logging.StreamHandler",
             "formatter":"main",
-            "level":logging.INFO}
+            "level":"INFO"}
     },
-    root = {"handlers":["user"]},
-    loggers = {
+    "loggers":{
         "cipher_crack.ciphers":{
-            "handlers":["ciphers"]}
+            "handlers":["ciphers"],
+            "level":"ERROR"},
+        "cipher_crack.main":{
+            "handlers":["user"],
+            "level":"INFO"}
     }
-)
+}
 logging.config.dictConfig(logging_config)
 logger = logging.getLogger(__name__)
+
 
 def main(args):
     parser = argparse.ArgumentParser(description="Crack ciphers\

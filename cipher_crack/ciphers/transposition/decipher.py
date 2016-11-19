@@ -1,9 +1,7 @@
 import logging
 import string
 
-
 logger = logging.getLogger(__name__)
-
 def decipher(cipher_txt,key):
     """
     Deciphers a given cipher text with a key
