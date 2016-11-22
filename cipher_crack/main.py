@@ -1,7 +1,7 @@
 import argparse
 import logging
 import logging.config
-from cipher_crack.ciphers import transposition
+from cipher_crack.ciphers import transposition,hill_cipher
 from cipher_crack import crack
 
 logging_config = {
@@ -49,7 +49,11 @@ def main(args):
 
     words = get_words_from_file(results.dict)
     if results.cipher == "transposition":
-        crack.crack(results.cipher_text,transposition.decipher,words,results.likely_words)
+        crack.crack(results.cipher_text,transposition.decipher,words,
+                results.likely_words)
+    elif results.cipher == "hill_cipher":
+        crack.crack(results.cipher_text,hill_cipher.decipher,words,
+                results.likely_words)
 
 def get_words_from_file(location):
     return [(word.rstrip('\n')).replace("'","") for word in open(location,'r')]
