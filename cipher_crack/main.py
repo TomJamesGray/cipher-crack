@@ -54,6 +54,8 @@ def main(args):
     elif results.cipher == "hill_cipher":
         crack.crack(results.cipher_text,hill_cipher.decipher,words,
                 results.likely_words)
+    else:
+        logger.error("No cipher found matching {}".format(results.cipher))
 
 def get_words_from_file(location):
     return [(word.rstrip('\n')).replace("'","") for word in open(location,'r')]
