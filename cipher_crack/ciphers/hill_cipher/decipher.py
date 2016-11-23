@@ -46,19 +46,6 @@ def get_adj(x):
     """
     return np.linalg.det(x)*x.getI()
 
-def mod_matrix(x,mod=26):
-    """
-    Returns the matrix x, using modular arithmetic of mod
-    """
-    new_data = []
-    for row in x:
-        new_data.append([])
-        for item in row:
-            logger.info("{} to {}".format(item,item%mod))
-            new_data[-1].append(item%mod)
-
-    return np.matrix(x)
-
 def decipher(cipher_txt,key):
     """
     Decipher a given string using a given key using the hill cipher
@@ -100,7 +87,7 @@ def decipher(cipher_txt,key):
     #No modular multiplicative inverse found
     if det == None:
         return None
-    key_inverse = mod_matrix(det_mulinv*get_adj(key_matrix),26)
+    key_inverse = (det_mulinv*get_adj(key_matrix))%26
 
     logger.info("Inverted key: {}".format(key_inverse))
     out = []
