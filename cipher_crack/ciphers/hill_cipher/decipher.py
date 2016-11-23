@@ -25,6 +25,39 @@ def gen_column_matricies(data,rows):
         matricies.append(np.matrix(matrix))
     return matricies
 
+#Functions used to find out the modular multiplicative inverse
+#https://en.wikibooks.org/wiki/Algorithm_Implementation/Mathematics/
+#Extended_Euclidean_algorithm
+def mulinv(b, n):
+    g, x, _ = egcd(b, n)
+    if g == 1:
+        return x % n
+
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, x, y = egcd(b % a, a)
+        return (g, y - (b // a) * x, x)
+
+def get_adj(x):
+    """
+    Returns the adjudicate matrix of X
+    """
+    return np.linalg.det(x)*x.getI()
+
+def mod_matrix(x,mod=26):
+    """
+    Returns the matrix x, using modular arithmetic of mod
+    """
+    new_data = []
+    for row in x:
+        new_data.append([])
+        for item in row:
+            logger.info("{} to {}".format(item,item%mod))
+            new_data[-1].append(item%mod)
+
+    return np.matrix(x)
 
 def decipher(cipher_txt,key):
     """
@@ -59,15 +92,20 @@ def decipher(cipher_txt,key):
     logger.info("Cipher text matrices: {}".format(cipher_txt_matricies))
 
     #Try and invert the matrix
-    try:
-        inverted_key = key_matrix.getI()
-    except numpy.linalg.linalg.LinAlgError:
-        logger.error("Cipher text matrix is singular")
+    #Round the determinant to a reasonable accuracy
+    det = round(np.linalg.det(key_matrix),3)
+    logger.info("Determinant: {}".format(det))
+    det_mulinv = mulinv(det,26)
+    logger.info("Mulinv det: {}".format(det_mulinv))
+    #No modular multiplicative inverse found
+    if det == None:
         return None
-    logger.info("Inverted key: {}".format(inverted_key))
+    key_inverse = mod_matrix(det_mulinv*get_adj(key_matrix),26)
+
+    logger.info("Inverted key: {}".format(key_inverse))
     out = []
     for cipher_txt_matrix in cipher_txt_matricies:
-        out.append((inverted_key*cipher_txt_matrix).tolist())
+        out.append((key_inverse*cipher_txt_matrix).tolist())
 
     logger.info("Out chars: {}".format(out))
     return "ACT"
