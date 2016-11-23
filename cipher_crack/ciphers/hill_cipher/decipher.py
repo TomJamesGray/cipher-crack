@@ -52,7 +52,7 @@ def decipher(cipher_txt,key):
     Decipher a given string using a given key using the hill cipher
     """
     #Check if key length is a square number, temp soluton
-    if not (len(key) == 4) or (len(key) == 9):
+    if not ((len(key) == 4) or (len(key) == 9)):
         return None
 
     while len(cipher_txt) % (len(key)**0.5) != 0:
