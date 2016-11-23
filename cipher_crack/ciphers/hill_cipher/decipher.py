@@ -98,7 +98,6 @@ def decipher(cipher_txt,key):
     out = itertools.chain(*out)
     out_str = ""
     for c in out:
-        print(c)
         out_str += string.ascii_lowercase[int(round(c[0],0))]
 
     logger.info("Deciphered string: {}".format(out_str))
