@@ -55,6 +55,8 @@ def decipher(cipher_txt,key):
     if not (len(key) == 4) or (len(key) == 9):
         return None
 
+    while len(cipher_txt) % (len(key)**0.5) != 0:
+        cipher_txt += "X"
     #Get positions in alphabet for key
     key = key.lower()
     key_positions = []
@@ -86,19 +88,24 @@ def decipher(cipher_txt,key):
     det_mulinv = mulinv(det,26)
     logger.info("Mulinv det: {}".format(det_mulinv))
     #No modular multiplicative inverse found
-    if det == None:
+    if det_mulinv == None:
         return None
-    key_inverse = (det_mulinv*get_adj(key_matrix))%26
+    try:
+        key_inverse = (det_mulinv*get_adj(key_matrix))%26
+    except np.linalg.linalg.LinAlgError:
+        return None
 
     logger.info("Inverted key: {}".format(key_inverse))
     out = []
     for cipher_txt_matrix in cipher_txt_matricies:
         out.append(((key_inverse*cipher_txt_matrix)%26).tolist())
+    logger.info(out)
     #Flatten the out list for iteration
     out = itertools.chain(*out)
     out_str = ""
     for c in out:
-        out_str += string.ascii_lowercase[int(round(c[0],0))]
+        logger.info("C: {}".format(c))
+        out_str += string.ascii_lowercase[int(round(c[0],0)%26)]
 
     logger.info("Deciphered string: {}".format(out_str))
     return out_str
