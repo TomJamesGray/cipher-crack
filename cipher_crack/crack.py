@@ -10,13 +10,13 @@ def crack(cipher_txt,dec_func,dictionary,likely_words):
 
     for word in dictionary:
         deciphered = dec_func(cipher_txt,word)
-        logger.info(deciphered)
         if deciphered != None:
             if are_words_in_cipher(likely_words,deciphered):
                 logger.info("Key: {} \n{}".format(word,
                     deciphered))
 
 def are_words_in_cipher(words,cipher):
+    cipher = cipher.upper()
     for word in words:
-        if word in cipher:
+        if word.upper() in cipher:
             return True
