@@ -1,6 +1,7 @@
 import logging
 import numpy as np
 import string
+import itertools
 
 logger = logging.getLogger(__name__)
 
@@ -92,8 +93,14 @@ def decipher(cipher_txt,key):
     logger.info("Inverted key: {}".format(key_inverse))
     out = []
     for cipher_txt_matrix in cipher_txt_matricies:
-        out.append((key_inverse*cipher_txt_matrix).tolist())
+        out.append(((key_inverse*cipher_txt_matrix)%26).tolist())
+    #Flatten the out list for iteration
+    out = itertools.chain(*out)
+    out_str = ""
+    for c in out:
+        print(c)
+        out_str += string.ascii_lowercase[int(c[0])]
 
-    logger.info("Out chars: {}".format(out))
-    return "ACT"
+    logger.info("Deciphered string: {}".format(out_str))
+    return out_str
 
