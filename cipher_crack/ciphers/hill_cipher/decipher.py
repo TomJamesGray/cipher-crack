@@ -99,7 +99,7 @@ def decipher(cipher_txt,key):
     out_str = ""
     for c in out:
         print(c)
-        out_str += string.ascii_lowercase[int(c[0])]
+        out_str += string.ascii_lowercase[int(round(c[0],0))]
 
     logger.info("Deciphered string: {}".format(out_str))
     return out_str
