@@ -38,16 +38,29 @@ logger = logging.getLogger(__name__)
 
 
 def main(args):
+    dictionary_functions = {
+        "word_length": lambda x: length_words(x)
+    }
+
     parser = argparse.ArgumentParser(description="Crack ciphers\
             based on a dictionary attack")
     parser.add_argument("cipher",action="store",type=str)
     parser.add_argument("cipher_text",action="store",type=str)
     parser.add_argument("likely_words",action="store",type=str)
-    parser.add_argument("--dict",action="store",type=str,
-            default="/usr/share/dict/cracklib-small")
+    #Use either a dictionary of a pre-defined functions
+    parser.add_argument("--dict",action="store",type=str)
+    parser.add_argument("--dict_func",action="store",type=str)
+
     results = parser.parse_args(args)
 
-    words = get_words_from_file(results.dict)
+    if results.dict == None and results.dict_func == None:
+        logger.error("No dictionary or dictionary function specified")
+        return False
+    elif results.dict != None:
+        words = lambda: get_words_from_file(results.dict)
+    else:
+        words = lambda: dictionary_functions.get(results.dict_func)(4)
+
     if results.cipher == "transposition":
         crack.crack(results.cipher_text,transposition.decipher,words,
                 results.likely_words)
@@ -58,5 +71,5 @@ def main(args):
         logger.error("No cipher found matching {}".format(results.cipher))
 
 def get_words_from_file(location):
-    return [(word.rstrip('\n')).replace("'","") for word in open(location,'r')]
-
+    for word in open(location,'r'):
+        yield (word.rstrip('\n')).replace("'","")
