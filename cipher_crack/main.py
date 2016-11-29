@@ -31,6 +31,9 @@ logging_config = {
             "level":"INFO"},
         "cipher_crack.main":{
             "handlers":["user"],
+            "level":"INFO"},
+        "cipher_crack.dictionary_functions":{
+            "handlers":["user"],
             "level":"INFO"}
     }
 }
@@ -50,7 +53,11 @@ def main(args):
     parser.add_argument("likely_words",action="store",type=str)
     #Use either a dictionary of a pre-defined functions
     parser.add_argument("--dict",action="store",type=str)
-    parser.add_argument("--dict_func",action="store",type=str)
+    #Have dict_func as a group, one arg for the function name, and
+    #one for the comma seperated args
+    dict_func_group = parser.add_argument_group("dict_func")
+    dict_func_group.add_argument("--dict_func",action="store",type=str)
+    dict_func_group.add_argument("args",action="store",type=str)
 
     results = parser.parse_args(args)
 
@@ -60,7 +67,8 @@ def main(args):
     elif results.dict != None:
         words = lambda: get_words_from_file(results.dict)
     else:
-        words = lambda: dictionary_functions.get(results.dict_func)(4)
+        words = lambda: dictionary_functions.get(results.dict_func)(
+                *results.args.split(","))
 
     if results.cipher == "transposition":
         crack.crack(results.cipher_text,transposition.decipher,words,
