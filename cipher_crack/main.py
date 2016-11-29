@@ -1,6 +1,7 @@
 import argparse
 import logging
 import logging.config
+import cipher_crack.dictionary_functions as dict_funcs
 from cipher_crack.ciphers import transposition,hill_cipher
 from cipher_crack import crack
 
@@ -39,7 +40,7 @@ logger = logging.getLogger(__name__)
 
 def main(args):
     dictionary_functions = {
-        "word_length": lambda x: length_words(x)
+        "word_length": lambda x: dict_funcs.length_words(x)
     }
 
     parser = argparse.ArgumentParser(description="Crack ciphers\
