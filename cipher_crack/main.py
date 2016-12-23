@@ -57,7 +57,7 @@ def main(args):
     #one for the comma seperated args
     dict_func_group = parser.add_argument_group("dict_func")
     dict_func_group.add_argument("--dict_func",action="store",type=str)
-    dict_func_group.add_argument("args",action="store",type=str)
+    dict_func_group.add_argument("--args",action="store",type=str)
 
     results = parser.parse_args(args)
 
