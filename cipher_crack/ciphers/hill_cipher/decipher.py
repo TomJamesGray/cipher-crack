@@ -85,7 +85,7 @@ def decipher(cipher_txt,key):
     #Round the determinant to a reasonable accuracy
     det = round(np.linalg.det(key_matrix),3)
     logger.info("Determinant: {}".format(det))
-    det_mulinv = mulinv(det,26)
+    det_mulinv = mulinv(det%26,26)
     logger.info("Mulinv det: {}".format(det_mulinv))
     #No modular multiplicative inverse found
     if det_mulinv == None:
