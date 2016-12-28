@@ -23,5 +23,4 @@ def words_starting_with(starting,length):
     print(starting)
     for combination in combinations(string.ascii_lowercase,
                                     length-len(starting)):
-        logger.info(starting + ''.join(combination))
         yield starting + ''.join(combination)
