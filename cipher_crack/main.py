@@ -43,7 +43,9 @@ logger = logging.getLogger(__name__)
 
 def main(args):
     dictionary_functions = {
-        "word_length": lambda x: dict_funcs.length_words(x)
+        "word_length": lambda x: dict_funcs.length_words(x),
+        "words_starting": lambda start,l:
+            dict_funcs.words_starting_with(start,l)
     }
 
     parser = argparse.ArgumentParser(description="Crack ciphers\
