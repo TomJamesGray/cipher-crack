@@ -55,6 +55,8 @@ def main(args):
     parser.add_argument("likely_words",action="store",type=str)
     #Use either a dictionary of a pre-defined functions
     parser.add_argument("--dict",action="store",type=str)
+    #Include index of coincidence in the ratings of outputs
+    parser.add_argument("--include-ic",action="store_true",default=False)
     #Have dict_func as a group, one arg for the function name, and
     #one for the comma seperated args
     dict_func_group = parser.add_argument_group("dict_func")
@@ -74,10 +76,10 @@ def main(args):
 
     if results.cipher == "transposition":
         crack.crack(results.cipher_text,transposition.decipher,words,
-                results.likely_words)
+                results.likely_words,results.include_ic)
     elif results.cipher == "hill_cipher":
         crack.crack(results.cipher_text,hill_cipher.decipher,words,
-                results.likely_words)
+                results.likely_words,results.include_ic)
     else:
         logger.error("No cipher found matching {}".format(results.cipher))
 
