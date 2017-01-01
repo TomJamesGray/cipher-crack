@@ -26,10 +26,32 @@ def crack(cipher_txt,dec_func,dictionary,likely_words):
     for result in results:
         print("Score: {},Key: {}\n{}".format(result[2],result[0],result[1]))
 
-def count_words_in_cipher(words,cipher):
+def rate_output(likely_words,cipher,ic=False):
+    """
+    Rates a output based on the occurences of the likely words and if
+    enabled the index of coincidence
+    """
     cipher = cipher.upper()
     count = 0
-    for word in words:
+    for word in likely_words:
         if word.upper() in cipher:
             count += 1
     return count
+
+def calculate_ic(text):
+    """
+    Calculates the index of coincidence of a given text, english text
+    should have a IC of ~1.73
+    """
+    occurences = {}
+    for c in text:
+        if c in occurences:
+            occurences[c] += 1
+        else:
+            occurences[c] = 1
+    print(occurences)
+    observed = sum(
+            [occurences[x]*(occurences[x]-1) for x in occurences])
+    random = (1/26)*len(text)*(len(text)-1)
+    return observed/random
+
