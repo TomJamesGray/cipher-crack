@@ -1,4 +1,5 @@
 import logging
+import string
 
 logger = logging.getLogger(__name__)
 
@@ -43,15 +44,20 @@ def calculate_ic(text):
     Calculates the index of coincidence of a given text, english text
     should have a IC of ~1.73
     """
+    alphabet = string.ascii_lowercase
+    text = text.lower()
+    new_text = ""
     occurences = {}
     for c in text:
-        if c in occurences:
-            occurences[c] += 1
-        else:
-            occurences[c] = 1
+        if c in alphabet:
+            new_text += c
+            if c in occurences:
+                occurences[c] += 1
+            else:
+                occurences[c] = 1
     print(occurences)
     observed = sum(
             [occurences[x]*(occurences[x]-1) for x in occurences])
-    random = (1/26)*len(text)*(len(text)-1)
+    random = (1/len(alphabet))*len(new_text)*(len(new_text)-1)
     return observed/random
 
