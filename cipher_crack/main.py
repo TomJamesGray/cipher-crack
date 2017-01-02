@@ -42,6 +42,10 @@ logger = logging.getLogger(__name__)
 
 
 def main(args):
+    """
+    Main entry point for the program, it takes the command line
+    arguments and parses them
+    """
     dictionary_functions = {
         "word_length": lambda x: dict_funcs.length_words(x),
         "words_starting": lambda start,l:
@@ -88,5 +92,8 @@ def main(args):
         logger.error("No cipher found matching {}".format(results.cipher))
 
 def get_words_from_file(location):
+    """
+    Lazy function that yields each line from a file
+    """
     for word in open(location,'r'):
         yield (word.rstrip('\n')).replace("'","")

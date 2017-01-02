@@ -6,9 +6,8 @@ logger = logging.getLogger(__name__)
 
 def crack(cipher_txt,dec_func,dictionary,likely_words,ic=False,min_rating=1):
     """
-    Accepts a cpiher text and decipher function and deciphers the text
-    looking for likely words. The dictionary could either be a function
-    that yields words or a list
+    Accepts a cipher text and decipher function and deciphers the text
+    looking for likely words. The dictionary should be a lazy function
     """
     likely_words = likely_words.split(" ")
     if not callable(dec_func):
@@ -66,4 +65,8 @@ def calculate_ic(text):
     return observed/random
 
 def apply_normal_dist(x,mean,sd):
+    """
+    Get the y value for a given x value using the normal distribution
+    with a given mean and standard deviation
+    """
     return (1/(sd*(2*math.pi)**0.5))*math.e**((-(x-mean)**2)/(2*(sd**2)))
