@@ -65,6 +65,9 @@ def main(args):
     dict_func_group.add_argument("--args",action="store",type=str)
 
     results = parser.parse_args(args)
+    _crack = lambda func: crack.crack(results.cipher_text,func,words,
+            results.likely_words,ic=results.include_ic,
+            min_rating=results.min_rating)
 
     if results.dict == None and results.dict_func == None:
         logger.error("No dictionary or dictionary function specified")
@@ -76,11 +79,9 @@ def main(args):
                 *results.args.split(","))
 
     if results.cipher == "transposition":
-        crack.crack(results.cipher_text,transposition.decipher,words,
-                results.likely_words,results.include_ic,results.min_rating)
+        _crack(transposition.decipher)
     elif results.cipher == "hill_cipher":
-        crack.crack(results.cipher_text,hill_cipher.decipher,words,
-                results.likely_words,results.include_ic,results.min_rating)
+        _crack(hill_cipher.decipher)
     else:
         logger.error("No cipher found matching {}".format(results.cipher))
 
