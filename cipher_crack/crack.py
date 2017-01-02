@@ -4,7 +4,7 @@ import math
 
 logger = logging.getLogger(__name__)
 
-def crack(cipher_txt,dec_func,dictionary,likely_words,ic=False):
+def crack(cipher_txt,dec_func,dictionary,likely_words,ic=False,min_rating=1):
     """
     Accepts a cpiher text and decipher function and deciphers the text
     looking for likely words. The dictionary could either be a function
@@ -20,7 +20,7 @@ def crack(cipher_txt,dec_func,dictionary,likely_words,ic=False):
         deciphered = dec_func(cipher_txt,word)
         if deciphered != None:
             score = rate_output(likely_words,deciphered,ic)
-            if score != 0:
+            if score >= min_rating:
                 results.append((word,deciphered,score))
 
     #Sort results by the score
