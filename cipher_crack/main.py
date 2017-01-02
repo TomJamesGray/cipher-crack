@@ -47,6 +47,10 @@ def main(args):
         "words_starting": lambda start,l:
             dict_funcs.words_starting_with(start,l)
     }
+    cipher_functions = {
+        "transposition": transposition.decipher,
+        "hill_cipher": hill_cipher.decipher
+    }
 
     parser = argparse.ArgumentParser(description="Crack ciphers\
             based on a dictionary attack")
@@ -78,11 +82,9 @@ def main(args):
         words = lambda: dictionary_functions.get(results.dict_func)(
                 *results.args.split(","))
 
-    if results.cipher == "transposition":
-        _crack(transposition.decipher)
-    elif results.cipher == "hill_cipher":
-        _crack(hill_cipher.decipher)
-    else:
+    try:
+        _crack(cipher_functions.get(results.cipher))
+    except KeyError:
         logger.error("No cipher found matching {}".format(results.cipher))
 
 def get_words_from_file(location):
