@@ -58,19 +58,30 @@ def main(args):
 
     parser = argparse.ArgumentParser(description="Crack ciphers\
             based on a dictionary attack")
-    parser.add_argument("cipher",action="store",type=str)
+    parser.add_argument("cipher",action="store",type=str,
+            help="The type of cipher used e.g transposition")
     parser.add_argument("cipher_text",action="store",type=str)
-    parser.add_argument("likely_words",action="store",type=str)
+    parser.add_argument("likely_words",action="store",type=str,
+            help="Space seperated words that are likely to appear to\
+            appear in the correct output")
     #Use either a dictionary of a pre-defined functions
-    parser.add_argument("--dict",action="store",type=str)
+    parser.add_argument("--dict",action="store",type=str,
+            help="A file containing the possible keys")
     #Include index of coincidence in the ratings of outputs
-    parser.add_argument("--include-ic",action="store_true",default=False)
-    parser.add_argument("--min-rating",action="store",type=float,default=0)
+    parser.add_argument("--include-ic",action="store_true",default=False,
+            help="Include the index of coincidence in the rating of \
+            the output, this is reccomended for longer cipher texts\
+            however for shorter ciphers the index of coincidence\
+            could skew the output too much")
+    parser.add_argument("--min-rating",action="store",type=float,default=0,
+            help="The minimum rating for a given output to be printed out")
     #Have dict_func as a group, one arg for the function name, and
     #one for the comma seperated args
     dict_func_group = parser.add_argument_group("dict_func")
-    dict_func_group.add_argument("--dict_func",action="store",type=str)
-    dict_func_group.add_argument("--args",action="store",type=str)
+    dict_func_group.add_argument("--dict_func",action="store",type=str,
+            help="A function that yields words based on a criteria")
+    dict_func_group.add_argument("--args",action="store",type=str,
+            help="Arguments to be used with a dictionary function")
 
     results = parser.parse_args(args)
     _crack = lambda func: crack.crack(results.cipher_text,func,words,
