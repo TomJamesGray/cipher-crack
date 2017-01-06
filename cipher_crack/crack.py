@@ -17,7 +17,7 @@ def crack(cipher_txt,dec_func,dictionary,likely_words,ic=False,min_rating=1):
     results = []
     for word in dictionary():
         deciphered = dec_func(cipher_txt,word)
-        if deciphered != None:
+        if isinstance(deciphered,str):
             score = rate_output(likely_words,deciphered,ic)
             if score >= min_rating:
                 results.append((word,deciphered,score))
