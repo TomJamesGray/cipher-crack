@@ -2,7 +2,7 @@ import argparse
 import logging
 import logging.config
 import cipher_crack.dictionary_functions as dict_funcs
-from cipher_crack.ciphers import transposition,hill_cipher
+from cipher_crack.ciphers import transposition,hill_cipher,vigenere
 from cipher_crack import crack
 
 logging_config = {
@@ -53,7 +53,8 @@ def main(args):
     }
     cipher_functions = {
         "transposition": transposition.decipher,
-        "hill_cipher": hill_cipher.decipher
+        "hill_cipher": hill_cipher.decipher,
+        "vigenere": vigenere.decipher
     }
 
     parser = argparse.ArgumentParser(description="Crack ciphers\
